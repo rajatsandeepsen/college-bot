@@ -2,30 +2,15 @@
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"display": "TypeScript Library",
 	"compilerOptions": {
-		"composite": false,
-		"declaration": true,
-		"declarationMap": true,
-		"esModuleInterop": true,
-		"forceConsistentCasingInFileNames": true,
-		"inlineSources": false,
-		"isolatedModules": true,
-		"moduleResolution": "node",
-		"noUnusedLocals": false,
-		"noUnusedParameters": false,
-		"preserveWatchOutput": true,
-		"noEmit": true,
-		"allowImportingTsExtensions": true,
-		"skipLibCheck": true,
+		"target": "ES2022",
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
 		"strict": true,
-		"types": ["@types/node"],
-		"lib": ["dom", "ES2021"],
-		"module": "ESNext",
-		"target": "ES2021",
-		"stripInternal": true,
-		"paths": {
-			"package": ["./src/index"]
-		}
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"noEmit": true,
+		"types": ["node"]
 	},
-	"include": ["."],
-	"exclude": ["dist", "build", "node_modules"]
+	"include": ["global.d.ts", "agent/**/*.ts", ".eve/**/*.d.ts"],
+	"exclude": ["node_modules", ".output"]
 }
