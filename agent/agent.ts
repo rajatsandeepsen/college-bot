@@ -7,4 +7,5 @@ export default defineAgent({
 		reasoning_effort: "low",
 	}),
 	modelContextWindowTokens: SarvamChatModelInfo["sarvam-105b"].context_window,
+	defaultTools: false,
 });
