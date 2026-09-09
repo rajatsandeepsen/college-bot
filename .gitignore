@@ -41,3 +41,5 @@ test.ts
 
 .eve
 .output
+
+bun.lock
