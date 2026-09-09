@@ -14,7 +14,7 @@
 		"@exalabs/ai-sdk": "^2.1.0",
 		"ai": "^7.0.94",
 		"eve": "^0.52.3",
-		"sarvam-ai-sdk": "^0.4.3",
+		"sarvam-ai-sdk": "^0.4.4",
 		"zod": "^3.25.67"
 	},
 	"devDependencies": {
