@@ -4,7 +4,8 @@ import { z } from "zod";
 export default defineTool({
 	description: "Get the current weather for a city.",
 	inputSchema: z.object({ city: z.string().min(1) }),
-	async execute({ city }) {
+	async execute({ city }, ctx) {
+		console.log(ctx);
 		return { city, condition: "Sunny", temperatureF: 72 };
 	},
 });

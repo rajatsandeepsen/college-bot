@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "eve build",
-		"dev": "eve dev",
+		"dev": "eve dev --logs all",
 		"start": "eve start",
 		"test": "bun test",
 		"check": "tsc --noEmit"
