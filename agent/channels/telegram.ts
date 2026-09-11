@@ -7,20 +7,27 @@ export default telegramChannel({
 		webhookSecretToken: process.env.TELEGRAM_WEBHOOK_SECRET_TOKEN,
 	},
 	onMessage: async (ctx, message) => {
-		console.log(ctx.telegram);
-		console.log("message.text", message.text);
-		console.log("chat.id", message.chat.id);
-
 		if (message.chat.type !== "private" || !message.from || message.from.isBot)
 			return null;
 
-		if (message.text === "subscribe") {
-			await ctx.telegram.sendMessage("subscribed");
-			return null;
-		}
+		await ctx.telegram.startTyping();
 
-		return {
-			auth: defaultTelegramAuth(message),
-		};
+		if (!message.text.startsWith("/"))
+			return {
+				auth: defaultTelegramAuth(message),
+			};
+
+		switch (message.text) {
+			case "/subscribe":
+				await ctx.telegram.sendMessage("subscribed");
+				return null;
+
+			case "/unsubscribe":
+				await ctx.telegram.sendMessage("unsubscribed");
+				return null;
+
+			default:
+				return null;
+		}
 	},
 });
