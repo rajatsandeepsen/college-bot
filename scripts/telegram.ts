@@ -1,17 +1,43 @@
-const res = await fetch(
-	`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/setWebhook`,
-	{
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({
-			url: `${process.env.EVE_SERVER_URL}/eve/v1/telegram`,
-			secret_token: process.env.TELEGRAM_WEBHOOK_SECRET_TOKEN,
-			allowed_updates: ["message", "callback_query"],
+import { createFetch, createSchema } from "@better-fetch/fetch";
+import { z } from "zod";
+import {
+	botCommandScopeSchema,
+	commandSchema,
+	languageCodeSchema,
+} from "./schema";
+
+const schema = createSchema({
+	"/setWebhook": {
+		method: "post",
+		input: z.object({
+			url: z.url(),
+			max_connections: z.number().int().min(1).max(100).optional(),
+			allowed_updates: z.array(z.string()).optional(),
+			drop_pending_updates: z.boolean().optional(),
+			secret_token: z
+				.string()
+				.min(1)
+				.max(256)
+				.regex(/^[A-Za-z0-9_-]+$/)
+				.optional(),
 		}),
 	},
-);
+	"/setMyCommands": {
+		method: "post",
+		input: z.object({
+			commands: z.array(commandSchema).min(1).max(100),
+			scope: botCommandScopeSchema.optional(),
+			language_code: languageCodeSchema.optional(),
+		}),
+	},
+});
 
-const data = await res.json();
-console.log(data);
+export const telegram = createFetch({
+	baseURL: `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}`,
+	schema: schema,
+	defaultOutput: z.object({
+		ok: z.boolean(),
+		error_code: z.number(),
+		description: z.string(),
+	}),
+});
