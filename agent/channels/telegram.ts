@@ -20,6 +20,17 @@ export default telegramChannel({
 		switch (message.text) {
 			case "/subscribe":
 				await ctx.telegram.sendMessage("subscribed");
+				await ctx.telegram.post({
+					text: "Subscribe to?",
+					reply_markup: {
+						inline_keyboard: [
+							[
+								{ text: "all", callback_data: "subscribe:all" },
+								{ text: "tech", callback_data: "subscribe:tech" },
+							],
+						],
+					},
+				});
 				return null;
 
 			case "/unsubscribe":
@@ -28,6 +39,30 @@ export default telegramChannel({
 
 			default:
 				return null;
+		}
+	},
+	async onCallbackQuery(ctx, query) {
+		// Clear Telegram's loading indicator on the button.
+		await ctx.telegram.answerCallbackQuery({
+			callbackQueryId: query.id,
+		});
+
+		if (!query.message) {
+			return;
+		}
+
+		if (query.data) {
+			const [q_type, q_data] = query.data.split(":");
+			if (q_type === "subscribe") {
+				switch (q_data) {
+					case "all":
+					case "tech":
+						await ctx.telegram.editMessageText({
+							messageId: query.message.messageId,
+							text: `You have been subscribed to '${q_data}' events from campus`,
+						});
+				}
+			}
 		}
 	},
 });
