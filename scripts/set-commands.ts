@@ -12,6 +12,14 @@ const { data, error } = await telegram("/setMyCommands", {
 				command: "unsubscribe",
 				description: "",
 			},
+			{
+				command: "events",
+				description: "",
+			},
+			{
+				command: "clubs",
+				description: "",
+			},
 		],
 	},
 });

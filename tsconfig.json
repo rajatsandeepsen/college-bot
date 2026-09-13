@@ -7,10 +7,11 @@
 		"moduleResolution": "NodeNext",
 		"strict": true,
 		"esModuleInterop": true,
+		"allowImportingTsExtensions": true,
 		"skipLibCheck": true,
 		"noEmit": true,
 		"types": ["node"]
 	},
-	"include": ["global.d.ts", "agent/**/*.ts", ".eve/**/*.d.ts"],
+	"include": [".", ".eve/**/*.d.ts"],
 	"exclude": ["node_modules", ".output"]
 }

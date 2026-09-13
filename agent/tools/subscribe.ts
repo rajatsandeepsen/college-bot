@@ -20,11 +20,17 @@ export default defineTool({
 	description:
 		"To subscribe the user to get real time notifications and alert about campus events.",
 	inputSchema: z.object({
-		categories: z.enum(["all", "tech"]),
+		categories: z.enum(["all", "tech"]).default("all"),
 	}),
 	async execute(input, ctx) {
 		checkTelegramAuth(ctx.session.auth.current);
 		return { subscribed: true, input };
+	},
+	label: {
+		start: ({ categories }) =>
+			`Subscribe to '${categories}' events from campus`,
+		complete: ({ categories }, out) =>
+			`Subscribed to '${categories}' events from campus`,
 	},
 	toModelOutput: (out) => {
 		if (out.subscribed)

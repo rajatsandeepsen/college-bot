@@ -1,0 +1,197 @@
+{
+	"version": "8",
+	"dialect": "postgres",
+	"id": "2af6ac9a-5186-4c5c-92b5-d7298b5d7b2c",
+	"prevIds": ["00000000-0000-0000-0000-000000000000"],
+	"ddl": [
+		{
+			"values": ["tech", "art"],
+			"name": "category",
+			"entityType": "enums",
+			"schema": "public"
+		},
+		{
+			"values": ["competition", "workshop", "other"],
+			"name": "type",
+			"entityType": "enums",
+			"schema": "public"
+		},
+		{
+			"isRlsEnabled": false,
+			"name": "events",
+			"entityType": "tables",
+			"schema": "public"
+		},
+		{
+			"isRlsEnabled": false,
+			"name": "users",
+			"entityType": "tables",
+			"schema": "public"
+		},
+		{
+			"type": "integer",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": {
+				"type": "always",
+				"name": "events_id_seq",
+				"increment": "1",
+				"startWith": "1",
+				"minValue": "1",
+				"maxValue": "2147483647",
+				"cache": 1,
+				"cycle": false
+			},
+			"name": "id",
+			"entityType": "columns",
+			"schema": "public",
+			"table": "events"
+		},
+		{
+			"type": "varchar(255)",
+			"typeSchema": null,
+			"notNull": false,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "name",
+			"entityType": "columns",
+			"schema": "public",
+			"table": "events"
+		},
+		{
+			"type": "category",
+			"typeSchema": "public",
+			"notNull": true,
+			"dimensions": 0,
+			"default": "'tech'",
+			"generated": null,
+			"identity": null,
+			"name": "category",
+			"entityType": "columns",
+			"schema": "public",
+			"table": "events"
+		},
+		{
+			"type": "type",
+			"typeSchema": "public",
+			"notNull": true,
+			"dimensions": 0,
+			"default": "'other'",
+			"generated": null,
+			"identity": null,
+			"name": "type",
+			"entityType": "columns",
+			"schema": "public",
+			"table": "events"
+		},
+		{
+			"type": "text",
+			"typeSchema": null,
+			"notNull": false,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "club",
+			"entityType": "columns",
+			"schema": "public",
+			"table": "events"
+		},
+		{
+			"type": "text",
+			"typeSchema": null,
+			"notNull": false,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "department",
+			"entityType": "columns",
+			"schema": "public",
+			"table": "events"
+		},
+		{
+			"type": "jsonb",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "data",
+			"entityType": "columns",
+			"schema": "public",
+			"table": "events"
+		},
+		{
+			"type": "text",
+			"typeSchema": null,
+			"notNull": true,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "id",
+			"entityType": "columns",
+			"schema": "public",
+			"table": "users"
+		},
+		{
+			"type": "varchar(255)",
+			"typeSchema": null,
+			"notNull": false,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "name",
+			"entityType": "columns",
+			"schema": "public",
+			"table": "users"
+		},
+		{
+			"type": "varchar(255)",
+			"typeSchema": null,
+			"notNull": false,
+			"dimensions": 0,
+			"default": null,
+			"generated": null,
+			"identity": null,
+			"name": "email",
+			"entityType": "columns",
+			"schema": "public",
+			"table": "users"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "events_pkey",
+			"schema": "public",
+			"table": "events",
+			"entityType": "pks"
+		},
+		{
+			"columns": ["id"],
+			"nameExplicit": false,
+			"name": "users_pkey",
+			"schema": "public",
+			"table": "users",
+			"entityType": "pks"
+		},
+		{
+			"nameExplicit": false,
+			"columns": ["email"],
+			"nullsNotDistinct": false,
+			"name": "users_email_key",
+			"schema": "public",
+			"table": "users",
+			"entityType": "uniques"
+		}
+	],
+	"renames": []
+}
