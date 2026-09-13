@@ -9,4 +9,6 @@ const client = postgres(process.env.DATABASE_URL, {
 	prepare: false,
 });
 
-export const db = drizzle<typeof relations>({ client });
+export const db = drizzle({ client, relations });
+
+export * from "./schema.ts";

@@ -1,20 +1,7 @@
-import type { SessionAuthContext } from "eve/context";
 import { defineTool } from "eve/tools";
 import { z } from "zod";
-
-const checkTelegramAuth = (data: SessionAuthContext | null) => {
-	if (data?.issuer !== "telegram")
-		throw new Error("This tool requires an authenticated Telegram user.");
-
-	const telegramUserId = data.attributes.user_id;
-	const chatId = data.attributes.chat_id;
-
-	console.log({ telegramUserId, chatId });
-
-	if (!telegramUserId || !chatId) {
-		throw new Error("The Telegram user or chat ID is unavailable.");
-	}
-};
+import { db, users } from "@/db";
+import { checkTelegramAuth } from "./print_info.ts";
 
 export default defineTool({
 	description:
@@ -23,7 +10,12 @@ export default defineTool({
 		categories: z.enum(["all", "tech"]).default("all"),
 	}),
 	async execute(input, ctx) {
-		checkTelegramAuth(ctx.session.auth.current);
+		const id = checkTelegramAuth(ctx.session.auth.current);
+
+		await db.insert(users).values({
+			id,
+		});
+
 		return { subscribed: true, input };
 	},
 	label: {

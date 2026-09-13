@@ -10,7 +10,11 @@
 		"allowImportingTsExtensions": true,
 		"skipLibCheck": true,
 		"noEmit": true,
-		"types": ["node"]
+		"types": ["node"],
+		"paths": {
+			"@/*": ["./src/*"],
+			"@/db": ["./src/db/index.ts"]
+		}
 	},
 	"include": [".", ".eve/**/*.d.ts"],
 	"exclude": ["node_modules", ".output"]
