@@ -30,6 +30,13 @@ const schema = createSchema({
 			language_code: languageCodeSchema.optional(),
 		}),
 	},
+	"/sendMessage": {
+		method: "post",
+		input: z.object({
+			chat_id: z.string().min(1),
+			text: z.string().min(1).max(4096),
+		}),
+	},
 });
 
 export const telegram = createFetch({

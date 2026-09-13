@@ -8,6 +8,7 @@ declare global {
 			TELEGRAM_WEBHOOK_SECRET_TOKEN: string;
 			DATABASE_URL: string;
 			DATABASE_URL_DIRECT: string;
+			TELEGRAM_ADMIN_ID: string;
 		}
 	}
 }

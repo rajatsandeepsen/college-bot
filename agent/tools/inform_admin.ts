@@ -10,7 +10,7 @@ export default defineTool({
 		"To inform the person who build this bot, aka admin. About bugs, issues, misinformation about events etc",
 	inputSchema: z.object({ message: z.string() }),
 	async execute({ message }) {
-		const chatId = "";
+		const chatId = process.env.TELEGRAM_ADMIN_ID;
 
 		const chunks = splitTelegramMessageText(message);
 
