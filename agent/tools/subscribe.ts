@@ -3,43 +3,45 @@ import { defineTool } from "eve/tools";
 import { z } from "zod";
 import { clubKeys, departmentKeys } from "@/college";
 import { categoryEnum, db, typeEnum, users } from "@/db";
+import { mergeSubscriptions } from "@/lib/merge.ts";
 import { checkTelegramAuth } from "./print_info.ts";
 
-const inputSchema = z
-	.object({
-		categories: z
-			.enum(["all", ...categoryEnum.enumValues])
-			.transform((e) => `category:${e}` as const)
-			.optional(),
-		types: z
-			.enum(["all", ...typeEnum.enumValues])
-			.transform((e) => `type:${e}` as const)
-			.optional(),
-		clubs: z
-			.enum(["all", ...clubKeys])
-			.transform((e) => `club:${e}` as const)
-			.optional(),
-		departments: z
-			.enum(["all", ...departmentKeys])
-			.transform((e) => `department:${e}` as const)
-			.optional(),
-	})
-	.transform((d, ctx) => {
-		const subs = [d.categories, d.clubs, d.departments, d.types].filter(
-			Boolean,
-		);
+const inputSchema = z.object({
+	categories: z
+		.enum(["all", ...categoryEnum.enumValues])
+		.transform((e) => `category:${e}` as const)
+		.optional(),
+	types: z
+		.enum(["all", ...typeEnum.enumValues])
+		.transform((e) => `type:${e}` as const)
+		.optional(),
+	clubs: z
+		.enum(["all", ...clubKeys])
+		.transform((e) => `club:${e}` as const)
+		.optional(),
+	departments: z
+		.enum(["all", ...departmentKeys])
+		.transform((e) => `department:${e}` as const)
+		.optional(),
+});
+/*
+.transform((d, ctx) => {
+	const subs = [d.categories, d.clubs, d.departments, d.types].filter(
+		(item) => item !== undefined,
+	);
 
-		if (subs.length !== 0) return subs as string[];
+	if (subs.length !== 0) return subs;
 
-		ctx.issues.push({
-			code: "too_small",
-			minimum: 1,
-			input: d,
-			origin: "array",
-		});
-
-		return z.NEVER;
+	ctx.issues.push({
+		code: "too_small",
+		minimum: 1,
+		input: d,
+		origin: "array",
 	});
+
+	return z.NEVER;
+});
+ */
 
 export default defineTool({
 	description:
@@ -68,15 +70,11 @@ export default defineTool({
 
 		return { subscribed: true, input, subscriptions };
 	},
-	label: {
-		start: (input) => `Subscribe to campus events (${formatAdded(input)})`,
-		complete: (input) => `Subscribed to campus events (${formatAdded(input)})`,
-	},
 	toModelOutput: (out) => {
 		if (out.subscribed)
 			return {
 				type: "text",
-				value: `You have been subscribed to campus events (${formatAdded(out.input)}). Active subscriptions: ${out.subscriptions.join(", ")}`,
+				value: `You have been subscribed to campus events: ${out.subscriptions.join(", ")}`,
 			};
 
 		return {
