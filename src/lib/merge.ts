@@ -1,10 +1,10 @@
 import type { users } from "@/db";
 
-type Subscription = NonNullable<
+export type Subscription = NonNullable<
 	(typeof users.$inferSelect)["subscriptions"]
 >[number];
 
-type Dimension = "category" | "type" | "club" | "department";
+export type Dimension = "category" | "type" | "club" | "department";
 
 export type SubscriptionInput = Partial<{
 	categories: string;
