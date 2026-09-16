@@ -1,6 +1,52 @@
 export const domain = "sjcetpalai.ac.in";
 export const name = "St. Joseph's College of Engineering and Technology, Palai";
 
+export const categories = {
+	tech: {
+		name: "Technology",
+		icon: "💻",
+	},
+	art: {
+		name: "Arts & Culture",
+		icon: "🎨",
+	},
+	sports: {
+		name: "Sports",
+		icon: "⚽",
+	},
+	academic: {
+		name: "Academic",
+		icon: "📚",
+	},
+	social: {
+		name: "Social",
+		icon: "🎉",
+	},
+} as const;
+
+export const eventTypes = {
+	competition: {
+		name: "Competition",
+		icon: "🏆",
+	},
+	workshop: {
+		name: "Workshop",
+		icon: "🛠️",
+	},
+	seminar: {
+		name: "Seminar / Talk",
+		icon: "🎤",
+	},
+	hackathon: {
+		name: "Hackathon",
+		icon: "👨‍💻",
+	},
+	fest: {
+		name: "Fest",
+		icon: "🎪",
+	},
+} as const;
+
 export const departments = {
 	ai: "Artificial Intelligence & Data Science",
 	ad: "Artificial Intelligence & Data Science",
@@ -60,5 +106,7 @@ export const clubs = {
 	},
 } as const;
 
+export const categoryKeys = Object.keys(categories);
+export const typeKeys = Object.keys(eventTypes);
 export const clubKeys = Object.keys(clubs);
 export const departmentKeys = Object.keys(departments);

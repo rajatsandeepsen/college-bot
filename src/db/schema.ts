@@ -8,11 +8,16 @@ import {
 	text,
 	varchar,
 } from "drizzle-orm/pg-core";
-import { clubKeys, departmentKeys } from "../college.ts";
+import {
+	categoryKeys,
+	clubKeys,
+	departmentKeys,
+	typeKeys,
+} from "../college.ts";
 import { createdAt, updatedAt } from "./utils.ts";
 
-export const categoryEnum = pgEnum("category", ["tech", "art", "other"]);
-export const typeEnum = pgEnum("type", ["competition", "workshop", "other"]);
+export const categoryEnum = pgEnum("category", ["other", ...categoryKeys]);
+export const typeEnum = pgEnum("type", ["other", ...typeKeys]);
 
 export const users = pgTable(
 	"users",

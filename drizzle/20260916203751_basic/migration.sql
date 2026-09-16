@@ -1,5 +1,5 @@
-CREATE TYPE "category" AS ENUM('tech', 'art', 'other');--> statement-breakpoint
-CREATE TYPE "type" AS ENUM('competition', 'workshop', 'other');--> statement-breakpoint
+CREATE TYPE "category" AS ENUM('other', 'tech', 'art', 'sports', 'academic', 'social');--> statement-breakpoint
+CREATE TYPE "type" AS ENUM('other', 'competition', 'workshop', 'seminar', 'hackathon', 'fest');--> statement-breakpoint
 CREATE TABLE "events" (
 	"id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY (sequence name "events_id_seq" INCREMENT BY 1 MINVALUE 1 MAXVALUE 2147483647 START WITH 1 CACHE 1),
 	"name" varchar(255),
