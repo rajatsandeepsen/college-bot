@@ -5,6 +5,7 @@ Let's build a bot using [eve](https://eve.dev) framework.
 ## Requirements
 
 - Install [git](https://git-scm.com/install)
+- Install [VSCode](https://code.visualstudio.com/download) or any of your favorite IDE
 - Install [nodejs](https://nodejs.org) or [bun](https://bun.sh) if you're cool
 - Create a [sarvam](https://dashboard.sarvam.ai) account
 - Create a [github](https://github.com/signup) account and repo
@@ -91,14 +92,112 @@ export default telegramChannel({
 });
 ```
 
-### Run
+### Run, Build, Deploy
 
 ```bash
 npm run dev
 ```
 
-### Build
-
 ```bash
 npm run build
+```
+
+- Save this repository to your GitHub account
+- Import the repository into the Vercel and deploy with necessary .env secrets
+
+## Advanced
+
+Let's add more features to our bot.
+
+### Install
+
+```bash
+npm install drizzle-orm postgres @exalabs/ai-sdk
+npm install -d drizzle-kit @better-fetch/fetch
+```
+
+### Add More Secrets
+
+```env
+# from https://exa.ai
+EXA_API_KEY=
+
+# from https://supabase.com
+DATABASE_URL=
+DATABASE_URL_DIRECT=
+```
+
+### Get Ready for Database Migration
+
+```ts
+// drizzle.config.ts
+import { defineConfig } from "drizzle-kit";
+
+export default defineConfig({
+	out: "./drizzle",
+	schema: "./src/db/schema.ts",
+	dialect: "postgresql",
+	dbCredentials: {
+		url: process.env.DATABASE_URL_DIRECT,
+	},
+});
+```
+
+Add These Scripts
+
+```jsonc
+// package.json
+{
+	"scripts": {
+		"db:generate": "drizzle-kit generate",
+		"db:migrate": "drizzle-kit migrate"
+	}
+}
+```
+
+```ts
+// src/db/schema.ts
+import {
+	integer,
+	jsonb,
+	pgEnum,
+	pgTable,
+	text,
+	varchar,
+} from "drizzle-orm/pg-core";
+
+export const users = pgTable("users", {
+	id: text().primaryKey(),
+	name: varchar({ length: 255 }),
+	email: varchar({ length: 255 }).unique(),
+});
+
+export const categoryEnum = pgEnum("category", ["tech", "art"]);
+export const typeEnum = pgEnum("type", ["competition", "workshop", "other"]);
+
+export const events = pgTable("events", {
+	id: integer().primaryKey().generatedAlwaysAsIdentity(),
+	name: varchar({ length: 255 }),
+	category: categoryEnum().default("tech").notNull(),
+	type: typeEnum().default("other").notNull(),
+	club: text({ enum: ["iedc", "ieee"] }),
+	department: text({ enum: ["ai", "cse"] }),
+	data: jsonb().notNull(),
+});
+```
+
+```ts
+// src/db/index.ts
+import { defineRelations } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
+import * as schema from "./schema.ts";
+
+const relations = defineRelations(schema, () => ({}));
+
+const client = postgres(process.env.DATABASE_URL, { prepare: false });
+
+export const db = drizzle({ client, relations });
+
+export * from "./schema.ts";
 ```
