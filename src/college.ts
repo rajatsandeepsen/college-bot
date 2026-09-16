@@ -60,5 +60,5 @@ export const clubs = {
 	},
 } as const;
 
-export const clubsAsArray = Object.keys<true, typeof clubs>(clubs);
-export const departmentsAsArray = Object.keys<true, typeof clubs>(clubs);
+export const clubKeys = Object.keys(clubs);
+export const departmentKeys = Object.keys(departments);
