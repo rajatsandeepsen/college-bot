@@ -16,8 +16,10 @@ export type SubscriptionInput = Partial<{
 const mergeDimension = (
 	current: Subscription[],
 	prefix: Dimension,
-	value: string,
+	data: string,
 ): Subscription[] => {
+	const [parent, value] = data.split(":");
+
 	if (value === "all") {
 		const rest = current.filter((s) => !s.startsWith(`${prefix}:`));
 		return [...rest, `${prefix}:all`];

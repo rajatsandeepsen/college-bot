@@ -3,8 +3,9 @@ import type { Dimension, Subscription, SubscriptionInput } from "./merge.ts";
 const unmergeDimension = (
 	current: Subscription[],
 	prefix: Dimension,
-	value: string,
+	data: string,
 ): Subscription[] => {
+	const [parent, value] = data.split(":");
 	if (value === "all") {
 		return current.filter((s) => !s.startsWith(`${prefix}:`));
 	}
