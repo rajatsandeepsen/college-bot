@@ -1,4 +1,7 @@
+import { eq } from "drizzle-orm";
 import { defaultTelegramAuth, telegramChannel } from "eve/channels/telegram";
+import { db, users } from "@/db";
+import { formatSubscriptions } from "@/lib/subscriptions.ts";
 
 export default telegramChannel({
 	botUsername: "sjcet_bot",
@@ -17,25 +20,35 @@ export default telegramChannel({
 				auth: defaultTelegramAuth(message),
 			};
 
+		const userId = message.from.id;
+
 		switch (message.text) {
-			case "/subscribe":
-				await ctx.telegram.sendMessage("subscribed");
+			case "/subscriptions": {
+				const [user] = await db
+					.select({ subscriptions: users.subscriptions })
+					.from(users)
+					.where(eq(users.id, userId));
+
 				await ctx.telegram.post({
-					text: "Subscribe to?",
-					reply_markup: {
-						inline_keyboard: [
-							[
-								{ text: "all", callback_data: "subscribe:all" },
-								{ text: "tech", callback_data: "subscribe:tech" },
-							],
-						],
-					},
+					text: formatSubscriptions(user?.subscriptions ?? []),
 				});
 				return null;
+			}
 
-			case "/unsubscribe":
-				await ctx.telegram.sendMessage("unsubscribed");
+			case "/unsubscribe": {
+				await db
+					.insert(users)
+					.values({ id: userId, subscriptions: [] })
+					.onConflictDoUpdate({
+						target: users.id,
+						set: { subscriptions: [] },
+					});
+
+				await ctx.telegram.sendMessage(
+					"You have been unsubscribed from all campus event notifications.",
+				);
 				return null;
+			}
 
 			default:
 				return null;
@@ -53,16 +66,8 @@ export default telegramChannel({
 
 		if (query.data) {
 			const [q_type, q_data] = query.data.split(":");
-			if (q_type === "subscribe") {
-				switch (q_data) {
-					case "all":
-					case "tech":
-						await ctx.telegram.editMessageText({
-							messageId: query.message.messageId,
-							text: `You have been subscribed to '${q_data}' events from campus`,
-						});
-				}
-			}
+
+			console.log({ q_type, q_data });
 		}
 	},
 });

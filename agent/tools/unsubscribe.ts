@@ -43,13 +43,10 @@ export default defineTool({
 			input,
 		);
 
-		await db
-			.insert(users)
-			.values({ id, subscriptions })
-			.onConflictDoUpdate({
-				target: users.id,
-				set: { subscriptions, updatedAt: new Date() },
-			});
+		await db.insert(users).values({ id, subscriptions }).onConflictDoUpdate({
+			target: users.id,
+			set: { subscriptions },
+		});
 
 		return { unsubscribed: true, input, subscriptions };
 	},
