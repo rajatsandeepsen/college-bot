@@ -8,11 +8,11 @@ import { checkTelegramAuth } from "./print_info.ts";
 
 const inputSchema = z.object({
 	categories: z
-		.enum(["all", ...categoryEnum.enumValues])
+		.enum(["all", ...categoryEnum.enumValues.filter((e) => e === "other")])
 		.transform((e) => `category:${e}` as const)
 		.optional(),
 	types: z
-		.enum(["all", ...typeEnum.enumValues])
+		.enum(["all", ...typeEnum.enumValues.filter((e) => e === "other")])
 		.transform((e) => `type:${e}` as const)
 		.optional(),
 	clubs: z
@@ -45,7 +45,7 @@ const inputSchema = z.object({
 
 export default defineTool({
 	description:
-		"To subscribe the user to get real time notifications and alert about campus events. Pass only the filters to add — existing subscriptions are kept.",
+		"To subscribe the user to get real time notifications and alert about campus events. Pass only the filters to add, existing subscriptions are kept. If user have multiple inputs, run the tool multiple times.",
 	inputSchema,
 	async execute(input, ctx) {
 		const id = checkTelegramAuth(ctx.session.auth.current);

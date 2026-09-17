@@ -2,6 +2,8 @@
 
 Let's build a bot using [eve](https://eve.dev) framework.
 
+Demo: [SJCET Bot](https://t.me/sjcet_bot)
+
 ## Requirements
 
 - Install [git](https://git-scm.com/install)
