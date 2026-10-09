@@ -5,6 +5,10 @@ const { data, error } = await telegram("/setMyCommands", {
 		scope: { type: "all_private_chats" },
 		commands: [
 			{
+				command: "events",
+				description: "browse events based on your preferences",
+			},
+			{
 				command: "me",
 				description: "view your profile info",
 			},

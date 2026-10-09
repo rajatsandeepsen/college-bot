@@ -2,6 +2,8 @@ import { eq } from "drizzle-orm";
 import { defaultTelegramAuth, telegramChannel } from "eve/channels/telegram";
 import { clubs, departments } from "@/college";
 import { db, users } from "@/db";
+import { getEventsByFilter, getEventsKeyboard } from "@/lib/events.ts";
+import { formatEventMessage } from "@/lib/notify.ts";
 import { formatSubscriptions, formatUserProfile } from "@/lib/subscriptions.ts";
 
 export default telegramChannel({
@@ -24,6 +26,21 @@ export default telegramChannel({
 		const userId = message.from.id;
 
 		switch (message.text) {
+			case "/events": {
+				const [user] = await db
+					.select({ subscriptions: users.subscriptions })
+					.from(users)
+					.where(eq(users.id, userId));
+
+				await ctx.telegram.sendMessage({
+					text: "Pick an event category or view recent events:",
+					reply_markup: {
+						inline_keyboard: getEventsKeyboard(user?.subscriptions ?? []),
+					},
+				});
+				return null;
+			}
+
 			case "/clubs": {
 				const clubList = Object.values(clubs)
 					.map((c, i) => `${i + 1}. ${c.icon} ${c.name}`)
@@ -89,14 +106,29 @@ export default telegramChannel({
 			callbackQueryId: query.id,
 		});
 
-		if (!query.message) {
+		if (!query.message || !query.data) {
 			return;
 		}
 
-		if (query.data) {
-			const [q_type, q_data] = query.data.split(":");
+		const [q_type, q_data] = query.data.split(":");
 
-			console.log({ q_type, q_data });
+		switch (q_type) {
+			case "events": {
+				const eventList = await getEventsByFilter(q_data);
+
+				if (!eventList || eventList.length === 0) {
+					await ctx.telegram.sendMessage("No events found.");
+					return;
+				}
+
+				for (const event of eventList) {
+					await ctx.telegram.sendMessage(formatEventMessage(event));
+				}
+				break;
+			}
+
+			default:
+				break;
 		}
 	},
 });
