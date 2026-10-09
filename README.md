@@ -80,6 +80,8 @@ npx eve dev
 
 ### Add Telegram Support
 
+- [Docs](https://eve.dev/docs/channels/telegram)
+
 ```ts
 // agent/channels/telegram.ts
 import { defaultTelegramAuth, telegramChannel } from "eve/channels/telegram";

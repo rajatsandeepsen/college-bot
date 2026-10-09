@@ -8,6 +8,7 @@ import {
 	eventTypes,
 	typeKeys,
 } from "@/college";
+import type { users } from "@/db";
 import type { Subscription, SubscriptionInput } from "./merge.ts";
 
 export const dimensionLabels = {
@@ -59,6 +60,24 @@ export const formatSubscriptions = (subscriptions: Subscription[]) => {
 		"Your subscriptions:",
 		...subscriptions.map((tag) => `• ${formatSubscription(tag)}`),
 	].join("\n");
+};
+
+export const formatUserProfile = (
+	user: typeof users.$inferSelect | null | undefined,
+) => {
+	if (!user) {
+		return [
+			"Registration Status: Not Registered",
+			"",
+			"You don't have a saved profile yet. Chat with the bot or use /subscriptions to personalize your experience!",
+		];
+	}
+
+	return [
+		"Registration Status: Registered",
+		`Name: ${user.name ?? "Student"}`,
+		`Email: ${user.email ?? "Not provided"}`,
+	];
 };
 
 export const dimensionMenu = () => [

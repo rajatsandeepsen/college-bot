@@ -1,7 +1,8 @@
 import { eq } from "drizzle-orm";
 import { defaultTelegramAuth, telegramChannel } from "eve/channels/telegram";
+import { clubs, departments } from "@/college";
 import { db, users } from "@/db";
-import { formatSubscriptions } from "@/lib/subscriptions.ts";
+import { formatSubscriptions, formatUserProfile } from "@/lib/subscriptions.ts";
 
 export default telegramChannel({
 	botUsername: "sjcet_bot",
@@ -23,6 +24,32 @@ export default telegramChannel({
 		const userId = message.from.id;
 
 		switch (message.text) {
+			case "/clubs": {
+				const clubNames = Object.values(clubs)
+					.map((c) => c.name)
+					.join("\n");
+
+				await ctx.telegram.sendMessage(clubNames);
+				return null;
+			}
+
+			case "/departments": {
+				const deptNames = [...new Set(Object.values(departments))].join("\n");
+
+				await ctx.telegram.sendMessage(deptNames);
+				return null;
+			}
+
+			case "/me": {
+				const [user] = await db
+					.select()
+					.from(users)
+					.where(eq(users.id, userId));
+
+				await ctx.telegram.sendMessage(formatUserProfile(user).join("\n"));
+				return null;
+			}
+
 			case "/subscriptions": {
 				const [user] = await db
 					.select({ subscriptions: users.subscriptions })

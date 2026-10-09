@@ -5,6 +5,18 @@ const { data, error } = await telegram("/setMyCommands", {
 		scope: { type: "all_private_chats" },
 		commands: [
 			{
+				command: "me",
+				description: "view your profile & preferences that the bot reads",
+			},
+			{
+				command: "clubs",
+				description: "list clubs on the campus",
+			},
+			{
+				command: "departments",
+				description: "list departments on the campus",
+			},
+			{
 				command: "subscriptions",
 				description: "list all my future notification",
 			},
@@ -12,14 +24,6 @@ const { data, error } = await telegram("/setMyCommands", {
 				command: "unsubscribe",
 				description: "remove me from all future notification",
 			},
-			// {
-			// 	command: "events",
-			// 	description: "list recent events",
-			// },
-			// {
-			// 	command: "clubs",
-			// 	description: "list every clubs on the campus",
-			// },
 		],
 	},
 });
