@@ -21,7 +21,7 @@
 		"drizzle-orm": "^1.0.0-rc.4",
 		"eve": "^0.52.3",
 		"postgres": "^3.4.9",
-		"sarvam-ai-sdk": "^0.4.4",
+		"sarvam-ai-sdk": "^0.4.5",
 		"zod": "^4.6.2"
 	},
 	"devDependencies": {

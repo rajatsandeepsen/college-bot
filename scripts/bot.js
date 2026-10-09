@@ -10,4 +10,6 @@ const res = await fetch(`https://api.telegram.org/bot<1234567890>/setWebhook`, {
 	}),
 });
 
+console.log(res.json());
+
 // node ./bot.js

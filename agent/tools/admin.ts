@@ -39,8 +39,7 @@ export default defineDynamic({
 
 			return {
 				add_event: defineTool({
-					description:
-						"Add a new campus event to the database so students can get notified.",
+					description: "Add a new campus event to the database.",
 					inputSchema,
 					async execute(input) {
 						console.log(input.data, typeof input.data);

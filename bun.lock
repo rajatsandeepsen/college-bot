@@ -11,7 +11,7 @@
         "drizzle-orm": "^1.0.0-rc.4",
         "eve": "^0.52.3",
         "postgres": "^3.4.9",
-        "sarvam-ai-sdk": "^0.4.4",
+        "sarvam-ai-sdk": "^0.4.5",
         "zod": "^4.6.2",
       },
       "devDependencies": {
@@ -204,7 +204,7 @@
 
     "rou3": ["rou3@0.9.2", "", {}, "sha512-3SOzvaAg8rkHrXtRjpCvCvbyO5to9oOO27Z/XqHEYXfMRVSw/qMIVdmaOk9W2lcRLtR6dlqTjo9hDeJk70QBYQ=="],
 
-    "sarvam-ai-sdk": ["sarvam-ai-sdk@0.4.4", "", { "dependencies": { "@ai-sdk/provider": "^4.0.0", "@ai-sdk/provider-utils": "^5.0.0" }, "peerDependencies": { "ai": "^7.0.0", "zod": "^3.25.0 || ^4.0.0" } }, "sha512-rmdDwWFLSnY292duFOLwuV+UQke1NKr5LJKKjuvnHX3kkUmG+0da/sTurLO3xcZyUIJR9IVXpvoeuR9NeXzq/g=="],
+    "sarvam-ai-sdk": ["sarvam-ai-sdk@0.4.5", "", { "dependencies": { "@ai-sdk/provider": "^4.0.0", "@ai-sdk/provider-utils": "^5.0.0" }, "peerDependencies": { "ai": "^7.0.0", "zod": "^3.25.0 || ^4.0.0" } }, "sha512-GwAqj+bdhaePw04lJFG0ucV2TtqBGYzHHC9ap5WuaSlH3kNWfRISnVRvs8K/miZOmDJUeQ7S9UXgn0cKF7Sniw=="],
 
     "srvx": ["srvx@1.0.4", "", { "bin": { "srvx": "./bin/srvx.mjs" } }, "sha512-eZmYaxUfZSo7/8m8UdsHRJNmTLSCTPPom9d7a60vMmuVeZvwhbvflRR+00/CxTCjMOFa5+H8tgBeNDVZ+w7AAQ=="],
 

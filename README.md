@@ -1,4 +1,4 @@
-# College Bot Workshop
+# College Bot
 
 Let's build a bot using [eve](https://eve.dev) framework.
 
@@ -24,12 +24,21 @@ npx.cmd eve@latest init my-agent
 cd my-agent
 npm.cmd install
 npm.cmd install sarvam-ai-sdk
+
+# or
+npx eve@latest init my-agent
+cd my-agent
+npm install
+npm install sarvam-ai-sdk
 ```
 
 ### Create a .env file
 
 ```env
 SARVAM_API_KEY=
+TELEGRAM_BOT_TOKEN=
+TELEGRAM_WEBHOOK_SECRET_TOKEN=
+EVE_SERVER_URL=
 ```
 
 ### Add Your AI
@@ -77,15 +86,31 @@ import { defaultTelegramAuth, telegramChannel } from "eve/channels/telegram";
 
 export default telegramChannel({
 	botUsername: "your_bot_username",
+	credentials: {
+		botToken: process.env.TELEGRAM_BOT_TOKEN,
+		webhookSecretToken: process.env.TELEGRAM_WEBHOOK_SECRET_TOKEN,
+	},
 	onMessage: async (ctx, message) => {
 		if (message.chat.type !== "private" || !message.from || message.from.isBot)
 			return null;
 
 		await ctx.telegram.startTyping();
-		await ctx.telegram.sendMessage("Hello");
+		// await ctx.telegram.sendMessage("Hello");
 
 		return { auth: defaultTelegramAuth(message) };
 	},
+});
+```
+
+### Local Support
+
+```ts
+// agent/channels/eve.ts
+import { localDev, none } from "eve/channels/auth";
+import { eveChannel } from "eve/channels/eve";
+
+export default eveChannel({
+	auth: [localDev(), none()],
 });
 ```
 
@@ -105,6 +130,24 @@ npx eve build
 
 - Save this repository to your GitHub account
 - Import the repository into the Vercel and deploy with necessary .env secrets
+
+### Set Webhook
+
+```ts
+const res = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/setWebhook`, {
+	method: "POST",
+	headers: {
+		"Content-Type": "application/json",
+	},
+	body: JSON.stringify({
+		url: `${process.env.EVE_SERVER_URL}/eve/v1/telegram`,
+		secret_token: process.env.TELEGRAM_WEBHOOK_SECRET_TOKEN,
+		allowed_updates: ["message", "callback_query"],
+	}),
+});
+
+console.log(res.json());
+```
 
 ## Advanced
 
