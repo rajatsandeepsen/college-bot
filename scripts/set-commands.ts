@@ -6,15 +6,15 @@ const { data, error } = await telegram("/setMyCommands", {
 		commands: [
 			{
 				command: "me",
-				description: "view your profile & preferences that the bot reads",
+				description: "view your profile info",
 			},
 			{
 				command: "clubs",
-				description: "list clubs on the campus",
+				description: "list every clubs on the campus",
 			},
 			{
 				command: "departments",
-				description: "list departments on the campus",
+				description: "list every departments on the campus",
 			},
 			{
 				command: "subscriptions",

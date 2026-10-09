@@ -67,16 +67,16 @@ export const formatUserProfile = (
 ) => {
 	if (!user) {
 		return [
-			"Registration Status: Not Registered",
+			"Status: First Time User",
 			"",
-			"You don't have a saved profile yet. Chat with the bot or use /subscriptions to personalize your experience!",
+			"You don't have a saved profile yet. Chat with me or use /subscriptions to personalize your experience!",
 		];
 	}
 
 	return [
-		"Registration Status: Registered",
-		`Name: ${user.name ?? "Student"}`,
+		`Name: ${user.name ?? "Not provided"}`,
 		`Email: ${user.email ?? "Not provided"}`,
+		"Status: Subscribed",
 	];
 };
 

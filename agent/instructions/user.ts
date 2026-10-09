@@ -9,14 +9,21 @@ export default defineDynamic({
 		"turn.started": async (_event, ctx) => {
 			const caller = ctx.session.auth.current;
 
-			const userId = checkTelegramAuth(caller);
+			try {
+				const userId = checkTelegramAuth(caller);
 
-			const [user] = await db.select().from(users).where(eq(users.id, userId));
+				const [user] = await db
+					.select()
+					.from(users)
+					.where(eq(users.id, userId));
 
-			return defineInstructions({
-				content: formatUserInstructions(user).join("\n"),
-				role: "system",
-			});
+				return defineInstructions({
+					content: formatUserInstructions(user).join("\n"),
+					role: "system",
+				});
+			} catch (e) {
+				return null;
+			}
 		},
 	},
 });

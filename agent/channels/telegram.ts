@@ -25,18 +25,20 @@ export default telegramChannel({
 
 		switch (message.text) {
 			case "/clubs": {
-				const clubNames = Object.values(clubs)
-					.map((c) => c.name)
+				const clubList = Object.values(clubs)
+					.map((c, i) => `${i + 1}. ${c.icon} ${c.name}`)
 					.join("\n");
 
-				await ctx.telegram.sendMessage(clubNames);
+				await ctx.telegram.sendMessage(clubList);
 				return null;
 			}
 
 			case "/departments": {
-				const deptNames = [...new Set(Object.values(departments))].join("\n");
+				const deptList = [...new Set(Object.values(departments))]
+					.map((name, i) => `${i + 1}. 🎓 ${name}`)
+					.join("\n");
 
-				await ctx.telegram.sendMessage(deptNames);
+				await ctx.telegram.sendMessage(deptList);
 				return null;
 			}
 

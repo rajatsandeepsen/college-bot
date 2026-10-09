@@ -1,11 +1,18 @@
+import { simulateStreamingMiddleware, wrapLanguageModel } from "ai";
 import { defineAgent } from "eve";
 import { sarvam } from "sarvam-ai-sdk";
 import { SarvamChatModelInfo } from "sarvam-ai-sdk/info";
 
-export default defineAgent({
-	model: sarvam("sarvam-105b", {
+const model = wrapLanguageModel({
+	model: sarvam("sarvam-105b-conversations", {
 		reasoning_effort: "low",
 	}),
-	modelContextWindowTokens: SarvamChatModelInfo["sarvam-105b"].context_window,
+	middleware: simulateStreamingMiddleware(),
+});
+
+export default defineAgent({
+	model,
+	modelContextWindowTokens:
+		SarvamChatModelInfo["sarvam-105b-conversations"].context_window,
 	defaultTools: false,
 });

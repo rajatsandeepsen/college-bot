@@ -6,7 +6,9 @@ import { sarvam } from "sarvam-ai-sdk";
 import { generateText, Output } from "ai";
 
 const { output } = await generateText({
-	model: sarvam("sarvam-105b"),
+	model: sarvam("sarvam-105b", {
+		"experimental_json_mode": true
+	}),
 	output: Output.object({
 		name: "Recipe",
 		description: "A recipe with a name, ingredients and steps",

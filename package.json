@@ -6,6 +6,7 @@
 	"scripts": {
 		"build": "eve build",
 		"dev": "eve dev --logs all",
+		"update": "bun run ./scripts/set-commands.ts",
 		"remote": "eve dev -u https://sjcet-bot.vercel.app",
 		"start": "eve start",
 		"db:generate": "drizzle-kit generate",
